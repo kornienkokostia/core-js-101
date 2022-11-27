@@ -18,9 +18,7 @@
  *   'aa',''    => 'aa'
  *   '',  'bb'  => 'bb'
  */
-function concatenateStrings(/* value1, value2 */) {
-  throw new Error('Not implemented');
-}
+const concatenateStrings = (value1, value2) => value1 + value2
 
 
 /**
@@ -34,9 +32,7 @@ function concatenateStrings(/* value1, value2 */) {
  *   'b'     => 1
  *   ''      => 0
  */
-function getStringLength(/* value */) {
-  throw new Error('Not implemented');
-}
+const getStringLength = (value) => value.split('').length
 
 /**
  * Returns the result of string template and given parameters firstName and lastName.
@@ -51,9 +47,7 @@ function getStringLength(/* value */) {
  *   'John','Doe'      => 'Hello, John Doe!'
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
-}
+const getStringFromTemplate = (firstName, lastName) => `Hello, ${firstName} ${lastName}!`
 
 /**
  * Extracts a name from template string 'Hello, First_Name Last_Name!'.
@@ -65,9 +59,7 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   'Hello, John Doe!' => 'John Doe'
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
-}
+ const extractNameFromTemplate = (value) => value.split(', ')[1].slice(0, -1)
 
 
 /**
