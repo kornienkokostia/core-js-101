@@ -273,9 +273,12 @@ const isString = (value) => typeof value === 'string' || value instanceof String
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
-}
+const getCardId = (value) => {
+  const rows = ['♣', '♦', '♥', '♠'];
+  const columns = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+  const currRow = rows.indexOf(value.split('').pop()) * 13;
+  return currRow + columns.indexOf(value.split('').slice(0, value.split('').length - 1).join(''));
+};
 
 
 module.exports = {
