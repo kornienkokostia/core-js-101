@@ -199,9 +199,7 @@ const toCsvText = (arr) => arr.map((el) => el.join(',')).join('\n');
  *   [ 0, 1, 2, 3, 4, 5 ] => [ 0, 1, 4, 9, 16, 25 ]
  *   [ 10, 100, -1 ]      => [ 100, 10000, 1 ]
  */
-function toArrayOfSquares(/* arr */) {
-  throw new Error('Not implemented');
-}
+const toArrayOfSquares = (arr) => arr.map((el) => el ** 2);
 
 
 /**

@@ -20,8 +20,14 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  return {
+    width,
+    height,
+    getArea() {
+      return width * height;
+    },
+  };
 }
 
 
@@ -35,9 +41,7 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
-}
+const getJSON = (obj) => JSON.stringify(obj);
 
 
 /**
@@ -51,10 +55,12 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
-}
+const fromJSON = (proto, json) => {
+  const obj = JSON.parse(json);
+  const values = Object.values(obj);
 
+  return new proto.constructor(...values);
+};
 
 /**
  * Css selectors builder
@@ -110,33 +116,111 @@ function fromJSON(/* proto, json */) {
  *  For more examples see unit tests.
  */
 
+function CssSelector() {
+  this.selectors = {
+    element: '',
+    id: '',
+    class: '',
+    attr: '',
+    pseudoClass: '',
+    pseudoElement: '',
+  };
+  this.protectedSelectors = ['element', 'id', 'pseudoEl'];
+  this.order = ['element', 'id', 'class', 'attr', 'pseudaClass', 'pseudoEl'];
+}
+
+CssSelector.prototype = {
+  checkSequence(name) {
+    if (this.protectedSelectors.indexOf(name) !== -1 && this.selcetorOrder === name) {
+      throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+    }
+    if (this.order.indexOf(name)
+      < this.order.indexOf(this.selcetorOrder)) {
+      throw new Error('Selector parts should be arranged in the following order: '
+        + 'element, id, class, attribute, pseudo-class, pseudo-element');
+    }
+    this.selcetorOrder = name;
+  },
+
+  element(value) {
+    this.checkSequence('element');
+    this.selectors.element = value;
+    return this;
+  },
+
+  id(value) {
+    this.checkSequence('id');
+    this.selectors.id = `#${value}`;
+    return this;
+  },
+
+  class(value) {
+    this.checkSequence('class');
+    this.selectors.class += `.${value}`;
+    return this;
+  },
+
+  attr(value) {
+    this.checkSequence('attr');
+    this.selectors.attr += `[${value}]`;
+    return this;
+  },
+
+  pseudoClass(value) {
+    this.checkSequence('pseudaClass');
+    this.selectors.pseudoClass += `:${value}`;
+    return this;
+  },
+
+  pseudoElement(value) {
+    this.checkSequence('pseudoEl');
+    this.selectors.pseudoElement = `::${value}`;
+    return this;
+  },
+
+
+  stringify() {
+    return this.selectors.element
+      + this.selectors.id
+      + this.selectors.class
+      + this.selectors.attr
+      + this.selectors.pseudoClass
+      + this.selectors.pseudoElement;
+  },
+};
+
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  str: '',
+  element(value) {
+    return new CssSelector().element(value);
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    return new CssSelector().id(value);
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    return new CssSelector().class(value);
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    return new CssSelector().attr(value);
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    return new CssSelector().pseudoClass(value);
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    return new CssSelector().pseudoElement(value);
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    this.str = `${selector1.stringify()} ${combinator} ${selector2.stringify()}`;
+    return this;
+  },
+  stringify() {
+    return this.str;
   },
 };
 
