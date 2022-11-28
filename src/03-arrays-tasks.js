@@ -271,15 +271,7 @@ const propagateItemsByPositionIndex = (arr) => arr.map((el, i) => Array(i + 1).f
  *   [ 1,2,3,4,5,6,7,8,9,10 ] => [ 10, 9, 8 ]
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
-const get3TopItems = (arr) => {
-  const res = [];
-  const len = arr.length < 3 ? arr.length : 3;
-  for (let i = 0; i < len; i += 1) {
-    res.push(Math.max(...arr));
-    arr.splice(arr.indexOf(Math.max(...arr)), 1);
-  }
-  return res;
-};
+const get3TopItems = (arr) => arr.sort((a, b) => b - a).slice(0, 3);
 
 
 /**
@@ -295,9 +287,7 @@ const get3TopItems = (arr) => {
  *   [ null, 1, 'elephant' ] => 1
  *   [ 1, '2' ] => 1
  */
-function getPositivesCount(/* arr */) {
-  throw new Error('Not implemented');
-}
+const getPositivesCount = (arr) => arr.filter((el) => el > 0 && typeof el === 'number').length;
 
 /**
  * Sorts digit names
@@ -312,9 +302,32 @@ function getPositivesCount(/* arr */) {
  *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
-}
+const strToNum = (str) => {
+  switch (str) {
+    case 'one':
+      return 1;
+    case 'two':
+      return 2;
+    case 'three':
+      return 3;
+    case 'four':
+      return 4;
+    case 'five':
+      return 5;
+    case 'six':
+      return 6;
+    case 'seven':
+      return 7;
+    case 'eight':
+      return 8;
+    case 'nine':
+      return 9;
+    default:
+      return 0;
+  }
+};
+
+const sortDigitNamesByNumericOrder = (arr) => arr.sort((a, b) => strToNum(a) - strToNum(b));
 
 /**
  * Returns the sum of all items in the specified array of numbers
@@ -328,9 +341,7 @@ function sortDigitNamesByNumericOrder(/* arr */) {
  *   [ -1, 1, -1, 1 ]      => 0
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
-function getItemsSum(/* arr */) {
-  throw new Error('Not implemented');
-}
+const getItemsSum = (arr) => arr.reduce((acc, curVal) => acc + curVal, 0);
 
 /**
  * Returns the number of all falsy value in the specified array
@@ -344,9 +355,7 @@ function getItemsSum(/* arr */) {
  *  [ -1, 'false', null, 0 ] => 2
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
-function getFalsyValuesCount(/* arr */) {
-  throw new Error('Not implemented');
-}
+const getFalsyValuesCount = (arr) => arr.filter((el) => !el).length;
 
 /**
  * Returns a number of all occurrences of the specified item in an array
@@ -362,9 +371,7 @@ function getFalsyValuesCount(/* arr */) {
  *    [ null, undefined, null ], null => 2
  *    [ true, 0, 1, 'true' ], true => 1
  */
-function findAllOccurrences(/* arr, item */) {
-  throw new Error('Not implemented');
-}
+const findAllOccurrences = (arr, item) => arr.filter((el) => el === item).length;
 
 /**
  * Concatenates all elements from specified array into single string with ',' delimiter
@@ -377,9 +384,7 @@ function findAllOccurrences(/* arr, item */) {
  *    [1, 2, 3, 4, 5]                   => '1,2,3,4,5'
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
-function toStringList(/* arr */) {
-  throw new Error('Not implemented');
-}
+const toStringList = (arr) => arr.join(',');
 
 
 /**
@@ -408,9 +413,12 @@ function toStringList(/* arr */) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
-}
+const sortCitiesArray = (arr) => arr.sort((a, b) => {
+  if (a.country !== b.country) {
+    return a.country.localeCompare(b.country);
+  }
+  return a.city.localeCompare(b.city);
+});
 
 /**
  * Creates an identity matrix of the specified size
