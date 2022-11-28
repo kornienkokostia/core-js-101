@@ -438,9 +438,8 @@ const sortCitiesArray = (arr) => arr.sort((a, b) => {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
-}
+const getIdentityMatrix = (n) => Array(n).fill(Array(n).fill())
+  .map((xs, i) => xs.map((x, j) => (i === j ? 1 : 0)));
 
 /**
  * Creates an array of integers from the specified start to end (inclusive)
@@ -455,9 +454,8 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
-}
+const getIntervalArray = (start, end) => Array.from({ length: end - start + 1 },
+  (value, idx) => idx).map((el) => el + start);
 
 /**
  * Returns array containing only unique values from the specified array.
@@ -470,9 +468,7 @@ function getIntervalArray(/* start, end */) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
-}
+const distinct = (arr) => [...new Set(arr)];
 
 /**
  * Groups elements of the specified array by key.
@@ -504,9 +500,16 @@ function distinct(/* arr */) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
-}
+const group = (array, keySelector, valueSelector) => {
+  const map = new Map();
+  array.map((el) => {
+    const key = keySelector(el);
+    if (map.has(key)) map.get(key).push(valueSelector(el));
+    else map.set(key, [valueSelector(el)]);
+    return el;
+  });
+  return map;
+};
 
 
 /**
@@ -522,9 +525,7 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], (x) => x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
-}
+const selectMany = (arr, childrenSelector) => arr.map(childrenSelector).flat();
 
 
 /**
@@ -539,9 +540,8 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
-}
+const getElementByIndexes = (arr, indexes) => arr
+  .flat(Infinity)[indexes.reduce((partialSum, a) => partialSum + a, 0)];
 
 
 /**
@@ -562,9 +562,13 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
-}
+const swapHeadAndTail = (arr) => {
+  const halfLenght = Math.floor(arr.length / 2);
+  const head = arr.slice(0, halfLenght);
+  const tail = arr.slice(arr.length - halfLenght, arr.length);
+  const middle = arr.length % 2 === 0 ? [] : [arr[halfLenght]];
+  return [...tail, ...middle, ...head];
+};
 
 
 module.exports = {
