@@ -460,9 +460,38 @@ const getMatrixProduct = (m1, m2) => m1.map((x) => transpose(m2).map((y) => dotp
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
-}
+const evaluateTicTacToePosition = (position) => {
+  let res;
+  // check rows
+  position.map((el) => {
+    const curr = el.filter((e) => e === 'X');
+    if (curr.length === 3) { res = 'X'; }
+    return el;
+  });
+  position.map((el) => {
+    const curr = el.filter((e) => e === '0');
+    if (curr.length === 3) { res = '0'; }
+    return el;
+  });
+  // check columns
+  position.map((el, i) => {
+    const curr = position.map((e) => e[i]);
+    if (curr.every((v) => v === 'X')) { res = 'X'; }
+    return el;
+  });
+  position.map((el, i) => {
+    const curr = position.map((e) => e[i]);
+    if (curr.every((v) => v === '0')) { res = '0'; }
+    return el;
+  });
+  // check diagonals
+  if (position.map((el, i) => el[i]).every((el) => el === 'X')) { res = 'X'; }
+  if (position.map((el, i) => el[position.length - i - 1]).every((el) => el === 'X')) { res = 'X'; }
+  if (position.map((el, i) => el[i]).every((el) => el === '0')) { res = '0'; }
+  if (position.map((el, i) => el[position.length - i - 1]).every((el) => el === '0')) { res = '0'; }
+
+  return res;
+};
 
 
 module.exports = {
